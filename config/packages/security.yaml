@@ -1,0 +1,33 @@
+security:
+  encoders:
+    App\Entity\User:
+      algorithm: auto
+
+  providers:
+    app_user_provider:
+      entity:
+        class: App\Entity\User
+        property: email
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+    main:
+      anonymous: true
+      pattern: ^/
+
+      form_login:
+        check_path: login
+        login_path: login
+        csrf_token_generator: security.csrf.token_manager
+        default_target_path: home
+        failure_path: login
+
+      logout:
+        path: logout
+        target: home
+
+      guard:
+        authenticators:
+          - App\Security\LoginFormAuthenticator
+

@@ -1,0 +1,70 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administrator Dashboard{% endblock %}
+
+{% block content %}
+    <h1 class="font-weight-light">List of Users</h1>
+    <table class="table">
+        <caption>Moderators</caption>
+        {% for message in app.flashes('success') %}
+            <div class="alert alert-success">
+                {{ message }}
+            </div>
+        {% endfor %}
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Email</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set mod_counter = 1 %}
+        {% for mod in moderators %}
+            <tr>
+                <th scope="row">{{ mod_counter }}.</th>
+                <td>{{ mod.email|e }}</td>
+                <td>
+                    <a href="{{ url('delete_user', {'userId': mod.id}) }}">
+                        <button class="btn btn-outline-danger">Delete user</button>
+                    </a>
+                </td>
+            </tr>
+            {% set mod_counter = mod_counter + 1 %}
+        {% endfor %}
+        </tbody>
+    </table>
+    <table class="table">
+        <caption>Custodians</caption>
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Email</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% set cus_counter = 1 %}
+        {% for cus in custodians %}
+            <tr>
+                <th scope="row">{{ cus_counter }}.</th>
+                <td>{{ cus.email|e }}</td>
+                <td>
+                    <a href="{{ url('delete_user', {'userId': cus.id}) }}">
+                        <button class="btn btn-outline-danger">Delete user</button>
+                    </a>
+                </td>
+            </tr>
+            {% set cus_counter = cus_counter + 1 %}
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url('register_user') }}">
+        <button class="btn btn-outline-primary">Create new user</button>
+    </a>
+    <div>
+        {% if created_user %}
+            User {{ created_user }} created.
+        {% endif %}
+    </div>
+{% endblock %}

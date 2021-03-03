@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PXL's Asset Management Tool{% endblock %}
+
+
+{% block content %}
+    {% if app.user %}
+        <h1 class="font-weight-light">Welcome {{ app.user.username }}!</h1>
+        <p class="lead">Please feel free to register a ticket of complaint for one of our assets!</p>
+    {% else %}
+        <h1 class="font-weight-light">Welcome to the PXL Asset Management tool!</h1>
+        <p class="lead">Here, you can register a ticket of complaint for one of our assets. Please note, that as an
+            unregistered user,
+            you are only allowed to register three tickets per day for every asset, that is, for all unregistered users
+            combined. Assets for which there have already been issued three tickets today will not be displayed.</p>
+    {% endif %}
+
+    {% set asset_counter = 1 %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <table class="table">
+        <caption>Please, choose an asset to register a ticket for.</caption>
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Asset</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for asset in assets %}
+            <tr>
+                <th scope="row">{{ asset_counter }}.</th>
+                <td>{{ asset.name }}</td>
+                <td>
+                    <a href="{{ url('register_ticket', {'assetId': asset.id}) }}">
+                        <button class="btn btn-outline-success">
+                            Register ticket
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {% set asset_counter = asset_counter + 1 %}
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+

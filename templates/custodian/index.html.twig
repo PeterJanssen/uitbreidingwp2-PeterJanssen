@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Custodian Dashboard{% endblock %}
+
+{% block content %}
+    <h1 class="font-weight-light">List of tickets</h1>
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <div style="margin-bottom: 10px">
+        <form action="{{ url('custodian_dashboard', {'page': page, 'filter' : filter}) }}"
+              method="get">
+            <label for="filter">Filter Name</label>
+            <input name="filter" type="text">
+            <button type="submit" class="btn btn-info">Filter</button>
+        </form>
+    </div>
+    <div class="table-responsive">
+        <table class="table">
+            <caption>Tickets</caption>
+            <thead>
+            <tr>
+                <th scope="col">{{ knp_pagination_sortable(tickets, 'Id', 'ticket.id') }}</th>
+                <th scope="col">{{ knp_pagination_sortable(tickets, 'Votes', 'ticket.numberOfVotes') }}</th>
+                <th scope="col">{{ knp_pagination_sortable(tickets, 'Name', 'ticket.name') }}</th>
+                <th scope="col">{{ knp_pagination_sortable(tickets, 'Description', 'ticket.description') }}</th>
+            </tr>
+            </thead>
+            {% set ticket_counter = 1 %}
+            <tbody>
+            {% for ticket in tickets %}
+                <tr scope="row">
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.numberOfVotes|e }}</td>
+                    <td>{{ ticket.name|e }}</td>
+                    <td>{{ ticket.description|e }}</td>
+                    <td>
+                        <a href="{{ url('edit_ticket', {'ticketId': ticket.id, 'page': page, 'filter': filter}) }}">
+                            <button name="editBtn {{ ticket_counter }}" class="btn btn-outline-secondary">Edit</button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('delete_ticket', {'ticketId': ticket.id, 'page': page, 'filter': filter}) }}">
+                            <button name="deleteBtn {{ ticket_counter }}" class="btn btn-outline-danger">Delete</button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ url('upvote_ticket', {'ticketId': ticket.id, 'page': page, 'filter': filter}) }}">
+                            <button name="upvoteBtn {{ ticket_counter }}" class="btn btn-outline-dark">Upvote</button>
+                        </a>
+                    </td>
+                </tr>
+                {% set ticket_counter = ticket_counter + 1 %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="navigation text-center">
+        {{ knp_pagination_render(tickets) }}
+    </div>
+{% endblock %}

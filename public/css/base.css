@@ -1,0 +1,20 @@
+body {
+    background-image: url("../images/classroom.jpg");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+}
+
+footer {
+    height: 2.5rem;
+}
+
+.navbar-brand img {
+    height: 2.5rem;
+}
+
+.nav-link a:hover {
+    color: #2ca02c;
+}

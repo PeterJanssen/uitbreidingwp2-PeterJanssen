@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block title %}Create new Ticket{% endblock %}
+
+{% block content %}
+    <h1 class="font-weight-light">Create ticket for {{ asset_name }}</h1>
+    {{ form_start(register_form) }}
+
+    <div class="form-group">
+        {{ form_label(register_form.name, 'Give a name to your complaint:') }}
+        {{ form_widget(register_form.name) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(register_form.description, 'Describe your complaint:') }}
+        {{ form_widget(register_form.description) }}
+    </div>
+
+    <button class="btn btn-outline-success">Register Ticket</button>
+    {{ form_end(register_form) }}
+{% endblock %}
